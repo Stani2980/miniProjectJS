@@ -5,5 +5,5 @@
 ### Testing
 To run test you have to run the server in testenv
 
-- ´$yarn start test´ (this will ensure that the Test database is used)
-- ´$yarn test´ to run the tests (in different shell)
+- `$yarn start test` (this will ensure that the Test database is used)
+- `$yarn test` to run the tests (in different shell)
