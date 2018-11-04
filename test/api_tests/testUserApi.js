@@ -5,31 +5,13 @@ const settings = require("../../settings");
 var userFacade = require('../../facades/userFacade');
 var User = require('../../model/User');
 var fetch = require('node-fetch');
+const buildHTTP = require('./util').buildHTTP
+const handleHttpErrors = require('./util').handleHttpErrors
 
 mongoose.models = {};
 mongoose.modelSchemas = {};
 mongoose.connection = {};
 
-const buildHTTP = (method, data) => {
-    let headers = {
-        'Origin': '',
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-
-    return {
-        method,
-        headers,
-        body: JSON.stringify(data)
-    }
-}
-
-function handleHttpErrors(res) {
-    if (!res.ok) {
-        throw { message: res.statusText, status: res.status };
-    }
-    return res.json();
-}
 
 describe("API : Testing userApi", function () {
 
@@ -95,6 +77,19 @@ describe("API : Testing userApi", function () {
         users = await userFacade.getAllUsers();
         expect(users.length).to.be.equal(1);
     })
+    
+
+    /// TEMPORARY TEST
+    it("Should login and return user", async function () {
+        let userToSend = {firstName: "Peter", lastName: "Pan", userName: "peter", password: "test", email: "a@b.dk"};
+        const user = await fetch(url,buildHTTP("POST", userToSend)).then(handleHttpErrors);
+        expect(user).to.not.be.null;
+        expect(user.firstName).to.be.equal("Peter");
+        const res = await userFacade.login('peter', 'test');
+        expect(String(user._id)).to.be.equal(String(res._id));
+    })
+
+    
 
 
     after(async function () {

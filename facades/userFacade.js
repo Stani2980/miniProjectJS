@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
 var User = require("../model/User");
+const pf = require('../facades/positionFacade')
+const bcrypt = require('./utils/bcrypt')
 
 function getAllUsers() {
     return User.find({}).exec();
@@ -13,7 +15,7 @@ function findById(_id) {
     return User.findById(_id).exec();
 }
 
-function addUser(firstName, lastName, userName, password, email) {
+async function addUser(firstName, lastName, userName, password, email) {
     return new User({ userName, password, firstName, lastName, email }).save();
 }
 
@@ -25,12 +27,29 @@ function deleteUser(_id) {
     return User.findOneAndRemove(_id);
 }
 
-module.exports = {
-    getAllUsers: getAllUsers,
-    addUser: addUser,
-    findByUsername: findByUsername,
-    findById: findById,
-    updateUser: updateUser,
-    deleteUser,
+async function login(username, password, longitude, latitude, distance) {
+    // NOT FOR SORE EYES THIS NEEDS SOME REFACTORING....
+    const user = await findByUsername(username);
+    let err = new Error('Wrong username or password!');
+    err.status = 403;
 
+    if (!user) {
+        throw err;
+    }
+    const match = await bcrypt.checkLogin(user, password);
+    if (match) {
+        return await pf.findFriendsWithinRadius(longitude, latitude, distance);
+    } else {
+        throw err;
+    }
+}
+
+module.exports = {
+    getAllUsers,
+    addUser,
+    findByUsername,
+    findById,
+    updateUser,
+    deleteUser,
+    login
 }

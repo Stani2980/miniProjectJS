@@ -8,12 +8,12 @@ locationBlogApi.get('/', async function (req, res, next) {
 
 //GET by id
 locationBlogApi.get('/:id', async function (req, res, next) {
-    res.json(await lbf.getLocationBlogById(req.params.id));
+    res.json(await lbf.getLocationBlogById(req.params.id).catch(next));
 })
 
 //GET by pos
-locationBlogApi.get('/position/', async function (req, res, next) {
-    res.json(await lbf.getLocationBlogByPos(req.body.longtitude, req.body.latitude));
+locationBlogApi.get('/position/:longitude/:latitude', async function (req, res, next) {
+    res.json(await lbf.getLocationBlogByPos(req.params.longitude, req.params.latitude));
 })
 
 //DELETE position (returns deleted obj)
@@ -35,11 +35,9 @@ locationBlogApi.put('/', async function (req, res, next) {
 
 //THIS COULD BE CREATED WITH PATCH INSTEAD OF PUT ( TBD )
 //PUT Add like to user (Throws Error if already liked)
-locationBlogApi.put('/like', async function (req, res, next) {
-    res.json(await lbf.addLikeToBlog(req.body));
+locationBlogApi.put('/like/:userId', async function (req, res, next) {
+    res.json(await lbf.addLikeToBlog(req.body, req.params.userId).catch(next));
 })
-
-
 /****************************** */
 
 

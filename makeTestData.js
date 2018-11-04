@@ -26,8 +26,8 @@ function positionCreator(lon, lat, userId, dateInFuture) {
 }
 
 ///Utility Function to create LocationBlogs
-function locationBlogCreator(info, author, longtitude, latitude) {
-    var LocationBlogDetail = { info, pos: { longtitude, latitude }, author };
+function locationBlogCreator(info, author, longitude, latitude) {
+    var LocationBlogDetail = { info, pos: { longitude, latitude }, author };
     var blog = new LocationBlog(LocationBlogDetail);
     return blog.save();
 }
@@ -49,10 +49,10 @@ async function createUsers() {
     // console.log("batman : " + users[0]._id)
 
     var pos = await Promise.all([
-        positionCreator(10, 11, users[0]._id),
-        positionCreator(20, 22, users[1]._id, true),
-        positionCreator(15, 30, users[2]._id),
-        positionCreator(20, 22, users[3]._id)
+        positionCreator(10.1, 11, users[0]._id, true),
+        positionCreator(11, 10, users[1]._id, true),
+        positionCreator(10, 12, users[2]._id, true),
+        positionCreator(20, 22, users[3]._id, true)
     ]).catch(err => console.log(err));
 
     var blogs = await Promise.all([

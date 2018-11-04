@@ -22,7 +22,7 @@ describe("Testing locationBlogFacade", function () {
 
   var locationBlogs = [];
   var user;
-  /* Setup the database in a known state (2 users) before EACH test */
+  /* Setup the database in a known state, one user and 3 loc blogs before EACH test */
   beforeEach(async function () {
     //Delete db data for testing
     await LocationBlog.deleteMany({}).exec();
@@ -44,7 +44,7 @@ describe("Testing locationBlogFacade", function () {
     expect(blogs.length).to.be.equal(3);
   })
 
-  it("Find (Another Cool Place) by positon with (longtitude, latitude)", async function () {
+  it("Find (Another Cool Place) by positon with (longitude, latitude)", async function () {
     let blog = await lbf.getLocationBlogByPos(56, 56);
     expect(String(blog.author)).to.be.equal(String(user._id));
   });
@@ -57,15 +57,15 @@ describe("Testing locationBlogFacade", function () {
   });
 
   it("Give Like to Blog", async function (){
-    let blog = await lbf.addLikeToBlog(locationBlogs[0], user);
+    let blog = await lbf.addLikeToBlog(locationBlogs[0], user._id);
     expect(String(user._id)).to.be.equal(String(blog.likedBy[0]));
   })
   
   it("Get Error when User likes same post twice", async function(){
-    await lbf.addLikeToBlog(locationBlogs[0], user);
-    expect(() => lbf.addLikeToBlog(locationBlogs[0], user)).to.throw(Error);
+    await lbf.addLikeToBlog(locationBlogs[0], user._id);
+    expect(() => lbf.addLikeToBlog(locationBlogs[0], user._id)).to.throw(Error);
     
-  })
+  })    
 
   it("Delete a LocationBlog by id so only two are left", async function () {
     await lbf.deleteLocationBlog(locationBlogs[0]._id);

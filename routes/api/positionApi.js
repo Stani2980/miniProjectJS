@@ -9,7 +9,7 @@ userApi.get('/:id', async function (req, res, next) {
 // ********* (NOT THE SAFEST FUNCTIONS IN THE WORLD NEEDS SANITIZING)
 //POST add new pos
 positionApi.post('/', async function (req, res, next) {
-    res.json(await pf.addNewPos(req.body.longtitude, req.body.latitude, req.body._id));
+    res.json(await pf.addNewPos(req.body.longitude, req.body.latitude, req.body._id));
 })
 
 module.exports = positionApi;

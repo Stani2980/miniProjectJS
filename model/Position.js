@@ -9,7 +9,7 @@ var positionSchema = new Schema({
     user: { type: Schema.ObjectId, ref: 'User', required: true },
     created: { type: Date, expires: EXPIRES, default: Date.now },
     loc: {
-        type: { type: String, enum: "Point", default: "Point" },
+        "type": { type: String, enum: "Point", default: "Point" },
         coordinates: { type: [Number] }
     }
 })

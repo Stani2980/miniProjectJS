@@ -1,26 +1,59 @@
 require('mongoose');
 var Position = require('../model/Position');
 
-async function addNewPos(longtitude, latitude, id) {
-    return new Position({ user: id, loc: { coordinates: [longtitude, latitude] } }).save();
+async function addNewPos(lon, lat, id, dateInFuture) {
+    const posDetails = { user: id, loc: { coordinates: [lon, lat] } };
+
+    if (dateInFuture) {
+        posDetails.created = '2020-01-01T00:00:00.000Z';
+    }
+    const pos = new Position(posDetails);
+
+    return pos.save();
 }
 
 function getPositionById(_id) {
-    return Position.findOne({_id} );   /// NOT SURE IF WORKS, NEEDS TESTING
+    return Position.findOne({ _id });   /// NOT SURE IF WORKS, NEEDS TESTING
 }
 
-// DOES NOT WORK !? TBD
-function getPositionByLongLat(longtitude, latitude) {
-    return Position.findOne({ loc: { coordinates: [longtitude, latitude] } }).populate('user').exec();   /// NOT SURE IF WORKS, NEEDS TESTING
+function getPositionByUserId(_id) {
+    return Position.findOne({ user: _id });
 }
 
 function getAllPositions() {
     return Position.find({}).exec();
 }
 
+function updatePostion(userId, longitude, latitude) {
+    return Position.findOneAndUpdate({ user: userId }, { created: Date.now(), coordinates: [longitude, latitude] }, { upsert: true, new: true }).exec();
+}
+
+async function findFriendsWithinRadius(longitude, latitude, distance) {
+    let friendsPos = await Position.find({
+        loc:
+        {
+            $near:
+            {
+                $geometry: { type: "Point", coordinates: [longitude, latitude] },
+                $maxDistance: distance
+            }
+        }
+    }).populate('user', 'userName');
+
+    friendsPos = friendsPos.map((f) => {
+        let res = {};
+        res.username = f.user.userName;
+        res.latitude = f.loc.coordinates[1]
+        res.longitude = f.loc.coordinates[0]
+        return res;
+    })
+    return friendsPos;
+}
 module.exports = {
     addNewPos,
     getPositionById,
     getAllPositions,
-    getPositionByLongLat,
+    getPositionByUserId,
+    updatePostion,
+    findFriendsWithinRadius,
 }
