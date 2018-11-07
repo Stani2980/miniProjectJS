@@ -25,7 +25,7 @@ function getAllPositions() {
 }
 
 function updatePostion(userId, longitude, latitude) {
-    return Position.findOneAndUpdate({ user: userId }, { created: Date.now(), coordinates: [longitude, latitude] }, { upsert: true, new: true }).exec();
+    return Position.findOneAndUpdate({ user: userId }, { created: Date.now(), loc:{type: 'Point', coordinates: [longitude, latitude] }}, { upsert: true, new: true }).exec();
 }
 
 async function findFriendsWithinRadius(longitude, latitude, distance) {
@@ -40,7 +40,8 @@ async function findFriendsWithinRadius(longitude, latitude, distance) {
         }
     }).populate('user', 'userName');
 
-    friendsPos = friendsPos.map((f) => {
+    friendsPos.shift();
+    friendsPos = friendsPos.map((f, index) => {
         let res = {};
         res.username = f.user.userName;
         res.latitude = f.loc.coordinates[1]
