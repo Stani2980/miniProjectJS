@@ -29,16 +29,15 @@ function deleteUser(_id) {
 
 async function login(username, password, longitude, latitude, distance) {
     const user = await findByUsername(username);
-    let err = new Error('Wrong username or password!');
-    err.status = 403;
-    if (!user) {
-        throw err;
-    }
-    const match = await bcrypt.checkLogin(user, password);
-    if (match) {
-        await pf.updatePostion(user._id, longitude, latitude);
-        return await pf.findFriendsWithinRadius(longitude, latitude, distance);
+    if (user !== null) {
+        const match = await bcrypt.checkLogin(user, password);
+        if (match) {
+            await pf.updatePostion(user._id, longitude, latitude);
+            return await pf.findFriendsWithinRadius(longitude, latitude, distance);
+        }
     } else {
+        let err = new Error('Wrong username or password!');
+        err.status = 403;
         throw err;
     }
 }

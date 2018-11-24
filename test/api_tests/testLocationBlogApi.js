@@ -17,8 +17,8 @@ mongoose.connection = {};
 describe("API : Testing LocationBlog api", function () {
 
     /* Change timeout value and connect to test db.*/
+    this.timeout(Number(settings.MOCHA_TEST_TIMEOUT)); // Change default value from 2 sec to 5 else testing does not work
     before(async function () {
-        this.timeout(Number(settings.MOCHA_TEST_TIMEOUT)); // Change default value from 2 sec to 5 else testing does not work
         await connect(settings.TEST_DB_URI);
     })
 

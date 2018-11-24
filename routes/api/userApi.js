@@ -35,7 +35,7 @@ userApi.post('/', async function (req, res, next) {
 
 userApi.post('/login', async function (req, res, next) {
     const { username, password, latitude, longitude, distance } = req.body;
-    const friends = await uf.login(username, password, latitude, longitude, distance).catch(next);
+    const friends = await uf.login(username, password, longitude, latitude, distance).catch(next);
     if (friends) {
         res.json(friends);
     }

@@ -82,17 +82,17 @@ describe("API : Testing userApi", function () {
     })
 
 
-    it("Should login and return friend joker who is close", async function () {
+    it("Should login and return one friend (joker) who is close", async function () {
         //Add two positions for the existing users
         await pf.addNewPos(10, 12, users[0]._id)
         await pf.addNewPos(20, 20, users[1]._id)
         /// Need to add user here because InsertMany() does not trigger save() hooks in Schema
         await new User({ firstName: "Peter", lastName: "pan", userName: "peter", password: "test", email: "a@b.dk" }).save()
         //Body for login
-        let userToSend = { username: "peter", password: "test", latitude: 11, longitude: 13, distance: 1000000 }
+        let userToSend = { username: "peter", password: "test", latitude: 11, longitude: 12.1, distance: 1000000 }
         const friends = await fetch(`${url}/login`, buildHTTP("POST", userToSend)).then(handleHttpErrors);
-        console.log(friends)
         expect(friends).to.not.be.null;
+        expect(friends.length).to.be.equal(1);
         expect(friends[0].username).to.be.equal('joker')
     })
 

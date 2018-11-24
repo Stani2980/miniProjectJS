@@ -34,17 +34,14 @@ app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
-
-//THIS SHOULD DO MAGIC TO UNHANDLED REJECTIONS
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.log('Unhandled Rejection at:', reason.stack || reason)
-
-// })
 
 // error handler
 app.use(function (err, req, res, next) {
+  if(res.headersSent){
+    return next(err);
+  }
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

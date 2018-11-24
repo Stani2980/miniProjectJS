@@ -48,6 +48,7 @@ async function findFriendsWithinRadius(longitude, latitude, distance) {
         res.longitude = f.loc.coordinates[0]
         return res;
     })
+    
     return friendsPos;
 }
 module.exports = {

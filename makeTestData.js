@@ -43,16 +43,17 @@ async function createUsers() {
         userCreate('Robin', 'Wayne', 'RobinBike', 'red123', 'ro@bin.com', 'superhero', 'freelance', 'robin.com'),
         userCreate('Catwoman', 'noName', 'Whip', 'Batman', 'cat@woman.com', 'antihero', 'freelance', 'catwoman.com'),
         userCreate('Joker', '?', 'IloveBat', 'safePwd', 'Joke@r.com', 'villian', 'freelance', 'joker.com'),
+        userCreate('tester', 'testsson', 'test', 'test', 'test@tst.com', '...', '...', 'url.com'),
     ]).catch(err => console.log(err));
 
     // console.log("expect 4 : " + users.length)
     // console.log("batman : " + users[0]._id)
 
     var pos = await Promise.all([
-        positionCreator(10.1, 11, users[0]._id, true),
-        positionCreator(11, 10, users[1]._id, true),
-        positionCreator(10, 12, users[2]._id, true),
-        positionCreator(20, 22, users[3]._id, true)
+        positionCreator(12.5246000, 55.9569280, users[0]._id, true),
+        positionCreator(12.5236057, 55.9568280, users[1]._id, true),
+        positionCreator(12.5246002, 55.9579000, users[2]._id, true),
+        positionCreator(12.5251001, 55.9549000, users[3]._id, true)
     ]).catch(err => console.log(err));
 
     var blogs = await Promise.all([
