@@ -3,6 +3,7 @@ var User = require("../model/User");
 const pf = require('../facades/positionFacade')
 const bcrypt = require('./utils/bcrypt')
 
+
 function getAllUsers() {
     return User.find({}).exec();
 }
@@ -27,13 +28,13 @@ function deleteUser(_id) {
     return User.findOneAndRemove(_id);
 }
 
-async function login(username, password, longitude, latitude, distance) {
+async function login(username, password, longitude, latitude, distance, game) {
     const user = await findByUsername(username);
     if (user !== null) {
         const match = await bcrypt.checkLogin(user, password);
         if (match) {
             await pf.updatePostion(user._id, longitude, latitude);
-            return await pf.findFriendsWithinRadius(longitude, latitude, distance);
+            return await pf.findFriendsWithinRadius(longitude, latitude, distance, game);
         }
     } else {
         let err = new Error('Wrong username or password!');

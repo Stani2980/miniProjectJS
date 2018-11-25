@@ -46,7 +46,6 @@ describe("Testing positionFacade", function () {
         let pos = await pf.getPositionByUserId(users[0]._id);
         expect(String(newPos.user)).to.be.equal(String(pos.user));
     })
-    
 
     after(async function () {
         mongoose.connection.close();
