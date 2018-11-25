@@ -1,0 +1,18 @@
+doctype html  
+html(lang='en')  
+ head
+   title Welcome #{user.userName}
+ body
+    h2 Welcome #{user.userName}
+     block content
+        h2 Current Location Blogs
+        ul
+            each val in locationBlogs
+                p #{val.info}
+                p likes: #{val.likedBy.length}
+                form(method='POST' action='/friendfinder/like')
+                    div.form-group
+                        input(type='hidden', name='userId', value=user._id)
+                        input(type='hidden', name='blogId', value=val._id)
+                        button.btn.btn-primary(type='submit') Like
+                p --------------------------

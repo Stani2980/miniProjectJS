@@ -28,6 +28,20 @@ function deleteUser(_id) {
     return User.findOneAndRemove(_id);
 }
 
+async function loginServersideRender(username, password) {
+    const user = await findByUsername(username);
+    if (user !== null) {
+        const match = await bcrypt.checkLogin(user, password);
+        if (match) {
+            return user;
+        }
+    } else {
+        let err = new Error('Wrong username or password!');
+        err.status = 403;
+        throw err;
+    }
+}
+
 async function login(username, password, longitude, latitude, distance, game) {
     const user = await findByUsername(username);
     if (user !== null) {
@@ -50,5 +64,6 @@ module.exports = {
     findById,
     updateUser,
     deleteUser,
-    login
+    login,
+    loginServersideRender
 }

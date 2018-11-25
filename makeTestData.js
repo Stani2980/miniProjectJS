@@ -67,8 +67,10 @@ async function createUsers() {
     console.log("Slug for a Cool Place", blogs[0].slug);
 
     //Add a few likes for "a Cool Place"
-    blogs[0].likedBy.push(users[1]); //Like by Robin
-    blogs[0].likedBy.push(users[2]); //Like by Catwoman
+    blogs[0].likedBy.push(users[1]._id); //Like by Robin
+    blogs[0].likedBy.push(users[2]._id); //Like by Catwoman
+    blogs[1].likedBy.push(users[2]._id); //Like by Catwoman
+    blogs[2].likedBy.push(users[4]._id); //Like by test
     console.log("Likes for a Cool Place", blogs[0].likedByCount);
 }
 

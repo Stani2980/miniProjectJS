@@ -1,0 +1,23 @@
+doctype html  
+html(lang='en')  
+ head
+   title Login page
+ body
+    form(action="/friendfinder/register", method="post")
+        p Register :
+        input#firstname(type="text", name="firstname", placeholder="First name")
+        br
+        br
+        input#lastname(type="text", name="lastname", placeholder="Last name")
+        br
+        br
+        input#email(type="email", name="email", placeholder="email")
+        br
+        br
+        input#username(type="text", name="username", placeholder="username")
+        br
+        br
+        input#password(type="password", name="password", placeholder="password")
+        br
+        br
+        button(type="submit" ) Register

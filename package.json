@@ -12,7 +12,7 @@
     "chai": "^4.2.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
-    "ejs": "~2.5.7",
+    "pug": "latest",
     "expo-server-sdk": "^3.0.1",
     "express": "~4.16.0",
     "geojson-utils": "^1.1.0",

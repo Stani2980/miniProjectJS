@@ -48,6 +48,7 @@ userApi.post('/login', async function (req, res, next) {
         res.json(friends);
     }
 })
+
 //***************** */
 var users = [];
 function handleNotifications(newUser) {

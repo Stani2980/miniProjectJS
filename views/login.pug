@@ -1,0 +1,14 @@
+doctype html  
+html(lang='en')  
+ head
+   title Login page
+ body
+    form(action="/friendfinder/login", method="post")
+        p Login :
+        input#username(type="text", name="username", placeholder="username", value='test')
+        br
+        br
+        input#password(type="password", name="password", placeholder="password", value='test')
+        br
+        br
+        button(type="submit" ) Login
