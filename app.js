@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var process = require('process');
+const graphqlHTTP = require('express-graphql');
+
+const { schema, resolvers } = require('./model/graphqlStuff');
 
 
 /// TRICK TO RUN IN TEST ENVORIMENT
@@ -31,15 +34,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/friendfinder', indexRouter);
 app.use('/friendfinder/api', apiRouter);
+app.use('/friendfinder/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: true,
+}));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    next(createError(404));
+  next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-  if(res.headersSent){
+  if (res.headersSent) {
     return next(err);
   }
   // set locals, only providing error in development
