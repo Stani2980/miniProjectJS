@@ -10,6 +10,7 @@ const schema = buildSchema(`
     scalar ObjectID
     
     type User {
+        id: ObjectID!
         firstName: String!
         lastName: String!
         userName: String!
@@ -65,6 +66,11 @@ const resolvers = {
         const user = await uf.findById(_id);
         return user;
     },
+    createUser: async ({ input }) => {
+        let { firstName, lastName, userName, password, email } = input
+        const user = await uf.addUser(firstName, lastName, userName, password, email);
+        return user;
+    },
     getUsers: async () => {
         const users = await uf.getAllUsers();
         return users;
@@ -77,7 +83,7 @@ const resolvers = {
         const blogs = await bf.getAllLocationBlogs()
         return blogs;
     },
-    likeBlog: async ({locationBlogId, userId}) => {
+    likeBlog: async ({ locationBlogId, userId }) => {
         console.log(locationBlogId, userId)
         const blogToUpdate = await bf.getLocationBlogById(locationBlogId)
         const blog = await bf.addLikeToBlog(blogToUpdate, userId);
