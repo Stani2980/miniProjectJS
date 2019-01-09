@@ -37,7 +37,7 @@ app.use('/friendfinder/api', apiRouter);
 app.use('/friendfinder/graphql', graphqlHTTP({
   schema: schema,
   rootValue: resolvers,
-  graphiql: true,
+  graphiql: app.get('env') === 'development',
 }));
 
 // catch 404 and forward to error handler
