@@ -45,7 +45,18 @@ userApi.post('/login', async function (req, res, next) {
     handleNotifications(newUser);
 
     if (friends) {
+        console.log(JSON.stringify(res.getHeaders))
         res.json(friends);
+    }
+})
+
+userApi.post('/loginReact', async function (req, res, next) {
+    const { username, password } = req.body;
+    try {
+        const user = uf.loginServersideRender(username, password);
+        res.json(user);
+    } catch (error) {
+        res.json(error)
     }
 })
 
