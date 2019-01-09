@@ -53,7 +53,7 @@ userApi.post('/login', async function (req, res, next) {
 userApi.post('/loginReact', async function (req, res, next) {
     const { username, password } = req.body;
     try {
-        const user = uf.loginServersideRender(username, password);
+        const user = await uf.loginServersideRender(username, password);
         res.json(user);
     } catch (error) {
         res.json(error)
