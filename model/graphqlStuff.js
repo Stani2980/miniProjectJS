@@ -47,7 +47,9 @@ const schema = buildSchema(`
 
     type Query {
         getUser(id: ObjectID!): User
+        getUserByUsername(userName: String!): User
         getLocationBlogs: [LocationBlog!]
+        getUsers: [User]
 
     }
 
@@ -62,6 +64,10 @@ const resolvers = {
     getUser: async ({ _id }) => {
         const user = await uf.findById(_id);
         return user;
+    },
+    getUsers: async () => {
+        const users = await uf.getAllUsers();
+        return users;
     },
     getUserByUsername: async ({ userName }) => {
         const user = await uf.findByUsername(userName);
